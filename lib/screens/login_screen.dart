@@ -3,11 +3,15 @@ import 'dart:ffi';
 
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:login_register/screens/home_screen.dart';
 import 'package:login_register/screens/register_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'api.dart';
 
+String em="";
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
@@ -32,9 +36,36 @@ class _LoginScreenState extends State<LoginScreen> {
     var res=await CallApi().getData(t);
     var body=json.decode(res.body);
     if(body['success']){
+
+
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      setState(() {
+        prefs.setString('stringValue', s1);
+
+      });
+      HomeScreen().getEmail();
+      Fluttertoast.showToast(
+          msg: 'Login success :',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
+
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
       print("login");
     }else{
+      Fluttertoast.showToast(
+          msg: "user and password wrong :",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
       print("not login");
     }
   }

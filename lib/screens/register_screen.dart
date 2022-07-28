@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:login_register/screens/api.dart';
+import 'package:login_register/screens/login_screen.dart';
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({Key? key}) : super(key: key);
@@ -33,11 +35,30 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     var body=json.decode(res.body);
 
     if(body['success']){
-      print('insert :');
+      Fluttertoast.showToast(
+          msg: 'Register success :',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
+
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>LoginScreen()));
+      // print("login");
     }else{
-      print('not insert');
+      Fluttertoast.showToast(
+          msg: 'username and password wrong :',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
     }
-    print(data);
+    // print(data);
   }
 
   @override
